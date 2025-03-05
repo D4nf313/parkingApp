@@ -1,0 +1,18 @@
+<div class="modal-container">
+    <h2 mat-dialog-title>Registrar Hora de Salida</h2>
+    <div mat-dialog-content>
+      <form [formGroup]="exitTimeForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Hora de salida</mat-label>
+          <input matInput type="time" formControlName="exitTime">
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="closeDialog()">Cancelar</button>
+      <button mat-button color="primary" (click)="confirmExit()" [disabled]="exitTimeForm.invalid">
+        Dar salida
+      </button>
+    </div>
+  </div>
+  

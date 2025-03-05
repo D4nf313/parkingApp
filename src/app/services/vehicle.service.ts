@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ParkingSpot, Vehicle } from '../components/vehicle-form/vehicle-form.interface';
+import {
+  ParkingSpot,
+  Vehicle,
+} from '../components/vehicle-form/vehicle-form.interface';
 import { delay, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -7,30 +10,9 @@ import { delay, Observable, of } from 'rxjs';
 })
 export class VehicleService {
   private readonly storageKey = 'vehicleData';
-  private readonly parkingCarKey = 'parkingCar';
-  private readonly parkingMotoKey = 'parkingMoto';
-  private parkingCar: ParkingSpot[] = [
-    { id: 'C1', occupied: false },
-    { id: 'C2', occupied: false },
-    { id: 'C3', occupied: false },
-    { id: 'C4', occupied: false },
-    { id: 'C5', occupied: false }
-  ];
 
-  private parkingMoto: ParkingSpot[] = [
-    { id: 'M1', occupied: false },
-    { id: 'M2', occupied: false },
-    { id: 'M3', occupied: false },
-    { id: 'M4', occupied: false },
-    { id: 'M5', occupied: false },
-    { id: 'M6', occupied: false }
-  ];
-  constructor() {
+  constructor() {}
 
-  }
-
-
- 
   saveVehicle(vehicle: Vehicle): Observable<{ status: number }> {
     const vehicles = this.getVehicles();
     vehicles.push(vehicle);
@@ -43,5 +25,18 @@ export class VehicleService {
       return [];
     }
     return JSON.parse(data) as Vehicle[];
+  }
+
+  updateVehicle(updatedVehicle: Vehicle): Observable<{ status: number }> {
+    let vehicles = this.getVehicles();
+    const index = vehicles.findIndex(v => v.licensePlate === updatedVehicle.licensePlate);
+
+    if (index !== -1) {
+      vehicles[index] = updatedVehicle; // Sobreescribe el vehículo con los nuevos datos
+      sessionStorage.setItem(this.storageKey, JSON.stringify(vehicles));
+      return of({ status: 200 }).pipe(delay(1000));
+    }
+
+    return of({ status: 404 }).pipe(delay(1000)); // Retorna un error si no encuentra el vehículo
   }
 }

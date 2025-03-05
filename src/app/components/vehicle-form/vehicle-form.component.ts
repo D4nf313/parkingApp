@@ -33,17 +33,17 @@ export class VehicleFormComponent implements OnInit {
   vehiculoForm!: FormGroup;
   isPlazaDisabled = true;
   tiposVehiculo = [
-    { id:1, label: 'Carro' },
-    { id:2, label: 'Moto' },
+    { id: 1, label: 'Carro' },
+    { id: 2, label: 'Moto' },
   ];
 
   tiposAlimentacion = [
     { id: 1, label: 'Eléctrico' },
     { id: 2, label: 'Híbrido' },
-    { id: 3, label: 'Combustible' }
+    { id: 3, label: 'Combustible' },
   ];
 
-  plazas:ParkingSpot[]=[];
+  plazas: ParkingSpot[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -63,15 +63,14 @@ export class VehicleFormComponent implements OnInit {
       cedula: ['', [Validators.required]], // Cédula de 10 dígitos
       correo: ['', [Validators.required, Validators.email]], // Correo electrónico válido
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], // Teléfono de 10 dígitos
-      tipoVehiculo: ['', Validators.required], 
-      plaza: ['', Validators.required], 
-      tipoAlimentacion: ['', Validators.required], 
-      horaEntrada:['', Validators.required]
+      tipoVehiculo: ['', Validators.required],
+      plaza: ['', Validators.required],
+      tipoAlimentacion: ['', Validators.required],
+      horaEntrada: ['', Validators.required],
     });
-  
   }
   ngOnInit(): void {
-    this.vehiculoForm.get('tipoVehiculo')?.valueChanges.subscribe(value => {
+    this.vehiculoForm.get('tipoVehiculo')?.valueChanges.subscribe((value) => {
       if (value) {
         this.isPlazaDisabled = false;
         this.SpotForType(value);
@@ -81,42 +80,39 @@ export class VehicleFormComponent implements OnInit {
     });
   }
 
-  SpotForType(id:number): void {
+  SpotForType(id: number): void {
     const tipoSeleccionado = id;
     if (tipoSeleccionado === 1) {
-      this.parkingService.getParkingSpotsCar().subscribe(spots => {
-        this.plazas=spots;
+      this.parkingService.getParkingSpotsCar().subscribe((spots) => {
+        this.plazas = spots;
       });
     } else if (tipoSeleccionado === 2) {
-      this.parkingService.getParkingSpotsMoto().subscribe(spots => {
-        this.plazas=spots;
+      this.parkingService.getParkingSpotsMoto().subscribe((spots) => {
+        this.plazas = spots;
       });
     }
   }
 
-
   // Método para enviar el formulario
   onSubmit() {
     if (this.vehiculoForm.valid) {
-      // Crear el objeto que hace match con la interfaz VehicleForm
       const dataSend: Vehicle = {
-        licensePlate: this.vehiculoForm.get('placa')?.value, // Mapear placa a licensePlate
-        ownerName: this.vehiculoForm.get('nombreDueño')?.value, // Mapear nombreDueño a ownerName
-        idNumber: this.vehiculoForm.get('cedula')?.value, // Mapear cedula a idNumber
-        email: this.vehiculoForm.get('correo')?.value, // Mapear correo a email
-        phone: this.vehiculoForm.get('telefono')?.value, // Mapear telefono a phone
-        vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value, 
-        assignedSpot: this.vehiculoForm.get('plaza')?.value, 
-        entryTime: this.vehiculoForm.get('horaEntrada')?.value,// Mapear tipoVehiculo a vehicleType
-        exitTime:null
-
+        licensePlate: this.vehiculoForm.get('placa')?.value,
+        ownerName: this.vehiculoForm.get('nombreDueño')?.value,
+        idNumber: this.vehiculoForm.get('cedula')?.value,
+        email: this.vehiculoForm.get('correo')?.value,
+        phone: this.vehiculoForm.get('telefono')?.value,
+        vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value,
+        assignedSpot: this.vehiculoForm.get('plaza')?.value,
+        entryTime: this.vehiculoForm.get('horaEntrada')?.value,
+        exitTime: null,
       };
 
       this.vehicleService.saveVehicle(dataSend).subscribe({
         next: () => {
-          const idTipo= this.vehiculoForm.get('tipoVehiculo')?.value;
-          const idSpot= this.vehiculoForm.get('plaza')?.value;
-          this.parkingService.updateParkingSpot(idTipo,idSpot);
+          const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
+          const idSpot = this.vehiculoForm.get('plaza')?.value;
+          this.parkingService.updateParkingSpot(idTipo, idSpot);
           this.dialogRef.close();
 
           this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {
@@ -130,11 +126,6 @@ export class VehicleFormComponent implements OnInit {
           alert('Error al guardar el vehículo');
         },
       });
-
-      // Aquí puedes enviar los datos a un servicio o API
-      // this.vehicleService.saveVehicle(dataSend);
-    } else {
-      console.log('Formulario inválido');
     }
   }
 }
