@@ -77,10 +77,9 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Select Tipo de Vehículo -->
       <mat-form-field appearance="fill">
         <mat-label>Tipo de Vehículo</mat-label>
-        <mat-select formControlName="tipoVehiculo">
+        <mat-select formControlName="tipoVehiculo" >
           <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
             {{ tipo.label }}
           </mat-option>
@@ -91,6 +90,22 @@
           El tipo de vehículo es obligatorio.
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Plaza:</mat-label>
+        <mat-select formControlName="plaza" [disabled]="isPlazaDisabled">
+            <mat-option *ngFor="let plaza of plazas" [value]="plaza.id"
+            [disabled]="plaza.occupied">
+              {{ plaza.id }}  ({{ plaza.occupied ? 'Ocupado' : 'Disponible' }})
+            </mat-option>
+          </mat-select>
+        <mat-error
+          *ngIf="vehiculoForm.get('plaza')?.hasError('required')"
+        >
+          La plaza es obligatoria.
+        </mat-error>
+      </mat-form-field>
+
 
 
 

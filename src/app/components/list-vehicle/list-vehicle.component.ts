@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './list-vehicle.component.scss',
 })
 export class ListVehicleComponent implements OnInit {
-  displayedColumns: string[] = ['licensePlate', 'entryTime', 'exitTime', 'actions'];
+  displayedColumns: string[] = ['licensePlate', 'entryTime', 'exitTime', 'spot','actions'];
   dataSource: Vehicle[] = [];
 
   constructor(private vehicleService: VehicleService) {}

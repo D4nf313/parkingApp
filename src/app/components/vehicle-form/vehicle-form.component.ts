@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,9 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Vehicle } from './vehicle-form.interface';
+import { ParkingSpot, Vehicle } from './vehicle-form.interface';
 import { VehicleService } from '../../services/vehicle.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ParkingService } from '../../services/parking.service';
 @Component({
   selector: 'app-vehicle-form',
   imports: [
@@ -28,9 +29,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './vehicle-form.component.html',
   styleUrl: './vehicle-form.component.scss',
 })
-export class VehicleFormComponent {
+export class VehicleFormComponent implements OnInit {
   vehiculoForm!: FormGroup;
-
+  isPlazaDisabled = true;
   tiposVehiculo = [
     { id:1, label: 'Carro' },
     { id:2, label: 'Moto' },
@@ -42,11 +43,14 @@ export class VehicleFormComponent {
     { id: 3, label: 'Combustible' }
   ];
 
+  plazas:ParkingSpot[]=[];
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<VehicleFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private vehicleService: VehicleService,
+    private parkingService: ParkingService,
     private snackBar: MatSnackBar
   ) {
     // Inicializa el formulario con FormBuilder
@@ -60,10 +64,36 @@ export class VehicleFormComponent {
       correo: ['', [Validators.required, Validators.email]], // Correo electrónico válido
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], // Teléfono de 10 dígitos
       tipoVehiculo: ['', Validators.required], 
+      plaza: ['', Validators.required], 
       tipoAlimentacion: ['', Validators.required], 
       horaEntrada:['', Validators.required]
     });
+  
   }
+  ngOnInit(): void {
+    this.vehiculoForm.get('tipoVehiculo')?.valueChanges.subscribe(value => {
+      if (value) {
+        this.isPlazaDisabled = false;
+        this.SpotForType(value);
+      } else {
+        this.isPlazaDisabled = true;
+      }
+    });
+  }
+
+  SpotForType(id:number): void {
+    const tipoSeleccionado = id;
+    if (tipoSeleccionado === 1) {
+      this.parkingService.getParkingSpotsCar().subscribe(spots => {
+        this.plazas=spots;
+      });
+    } else if (tipoSeleccionado === 2) {
+      this.parkingService.getParkingSpotsMoto().subscribe(spots => {
+        this.plazas=spots;
+      });
+    }
+  }
+
 
   // Método para enviar el formulario
   onSubmit() {
@@ -76,6 +106,7 @@ export class VehicleFormComponent {
         email: this.vehiculoForm.get('correo')?.value, // Mapear correo a email
         phone: this.vehiculoForm.get('telefono')?.value, // Mapear telefono a phone
         vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value, 
+        assignedSpot: this.vehiculoForm.get('plaza')?.value, 
         entryTime: this.vehiculoForm.get('horaEntrada')?.value,// Mapear tipoVehiculo a vehicleType
         exitTime:null
 
@@ -83,6 +114,9 @@ export class VehicleFormComponent {
 
       this.vehicleService.saveVehicle(dataSend).subscribe({
         next: () => {
+          const idTipo= this.vehiculoForm.get('tipoVehiculo')?.value;
+          const idSpot= this.vehiculoForm.get('plaza')?.value;
+          this.parkingService.updateParkingSpot(idTipo,idSpot);
           this.dialogRef.close();
 
           this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {

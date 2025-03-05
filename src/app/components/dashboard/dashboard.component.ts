@@ -17,7 +17,7 @@ export class DashboardComponent {
   register(): void {
     const dialogRef = this.dialog.open(VehicleFormComponent, {
       width: '1200px',
-      height: '550px',
+      height: '650px',
 
     });
 
