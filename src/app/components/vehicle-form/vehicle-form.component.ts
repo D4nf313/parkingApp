@@ -35,6 +35,7 @@ export class VehicleFormComponent implements OnInit {
   isPlazaDisabled = true;
   isEdit: boolean = false;
   idVehicle?: number | null;
+  spotOccuped?: any;
   tiposVehiculo = [
     { id: 1, label: 'Carro' },
     { id: 2, label: 'Moto' },
@@ -59,7 +60,8 @@ export class VehicleFormComponent implements OnInit {
     if (data) {
       this.idVehicle = data.vehicle?.id;
       this.isEdit = true;
-      console.log(this.isEdit);
+      this.SpotForType(this.data.vehicle.vehicleType);
+      this.spotOccuped = this.data.vehicle.assignedSpot;
     }
 
     this.vehiculoForm = this.fb.group({
@@ -129,7 +131,9 @@ export class VehicleFormComponent implements OnInit {
           next: () => {
             const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
             const idSpot = this.vehiculoForm.get('plaza')?.value;
+
             this.parkingService.updateParkingSpot(idTipo, idSpot);
+
             this.dialogRef.close(true);
 
             this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {
@@ -144,12 +148,20 @@ export class VehicleFormComponent implements OnInit {
           },
         });
       } else {
-        console.log('es edit');
+        //Edit
         this.vehicleService.updateVehicle(dataSend).subscribe({
           next: () => {
             const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
             const idSpot = this.vehiculoForm.get('plaza')?.value;
-            this.parkingService.updateParkingSpot(idTipo, idSpot);
+            console.log(this.spotOccuped, idSpot);
+            if (this.spotOccuped !== idSpot) {
+              console.log('edittt');
+              this.parkingService.updateParkingSpot(idTipo, this.spotOccuped);
+              this.parkingService.updateParkingSpot(idTipo, idSpot);
+            }
+
+            console.log(idTipo, idSpot);
+
             this.dialogRef.close(true);
 
             this.snackBar.open('Vehículo editado con éxito', 'Cerrar', {

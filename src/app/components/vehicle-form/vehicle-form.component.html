@@ -2,7 +2,6 @@
   <div class="center">
     <h1 *ngIf="!isEdit">Registrar nuevo vehículo</h1>
     <h1 *ngIf="isEdit">Editar registro de vehículo</h1>
-    
   </div>
   <div class="container-form">
     <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
@@ -81,7 +80,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Tipo de Vehículo</mat-label>
-        <mat-select formControlName="tipoVehiculo" >
+        <mat-select formControlName="tipoVehiculo">
           <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
             {{ tipo.label }}
           </mat-option>
@@ -95,21 +94,19 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Plaza:</mat-label>
-        <mat-select formControlName="plaza" >
-            <mat-option *ngFor="let plaza of plazas" [value]="plaza.id"
-            [disabled]="plaza.occupied">
-              {{ plaza.id }}  ({{ plaza.occupied ? 'Ocupado' : 'Disponible' }})
-            </mat-option>
-          </mat-select>
-        <mat-error
-          *ngIf="vehiculoForm.get('plaza')?.hasError('required')"
-        >
+        <mat-select formControlName="plaza">
+          <mat-option
+            *ngFor="let plaza of plazas"
+            [value]="plaza.id"
+            [disabled]="plaza.occupied"
+          >
+            {{ plaza.id }} ({{ plaza.occupied ? "Ocupado" : "Disponible" }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="vehiculoForm.get('plaza')?.hasError('required')">
           La plaza es obligatoria.
         </mat-error>
       </mat-form-field>
-
-
-
 
       <mat-form-field appearance="fill">
         <mat-label>Tipo de Alimentación</mat-label>
@@ -131,7 +128,7 @@
           type="submit"
           [disabled]="vehiculoForm.invalid"
         >
-     Guardar
+          Guardar
         </button>
       </div>
     </form>
