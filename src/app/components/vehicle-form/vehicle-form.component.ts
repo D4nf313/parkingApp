@@ -31,7 +31,9 @@ import { ParkingService } from '../../services/parking.service';
 })
 export class VehicleFormComponent implements OnInit {
   vehiculoForm!: FormGroup;
+  vehicle?: Vehicle;
   isPlazaDisabled = true;
+  isEdit: boolean = false;
   tiposVehiculo = [
     { id: 1, label: 'Carro' },
     { id: 2, label: 'Moto' },
@@ -48,25 +50,35 @@ export class VehicleFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<VehicleFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { vehicle: Vehicle },
     private vehicleService: VehicleService,
     private parkingService: ParkingService,
     private snackBar: MatSnackBar
   ) {
-    // Inicializa el formulario con FormBuilder
+    if (data) {
+      this.isEdit = true;
+      console.log(this.isEdit);
+    }
+
     this.vehiculoForm = this.fb.group({
       placa: [
-        '',
+        data?.vehicle?.licensePlate || '',
         [Validators.required, Validators.pattern(/^[A-Za-z]{3}-\d{3}$/)],
-      ], // Placa con formato ABC-123
-      nombreDueño: ['', Validators.required], // Nombre del dueño
-      cedula: ['', [Validators.required]], // Cédula de 10 dígitos
-      correo: ['', [Validators.required, Validators.email]], // Correo electrónico válido
-      telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], // Teléfono de 10 dígitos
-      tipoVehiculo: ['', Validators.required],
-      plaza: ['', Validators.required],
-      tipoAlimentacion: ['', Validators.required],
-      horaEntrada: ['', Validators.required],
+      ],
+      nombreDueño: [data?.vehicle?.ownerName || '', Validators.required],
+      cedula: [data?.vehicle?.idNumber || '', [Validators.required]],
+      correo: [
+        data?.vehicle?.email || '',
+        [Validators.required, Validators.email],
+      ],
+      telefono: [
+        data?.vehicle?.phone || '',
+        [Validators.required, Validators.pattern(/^\d{10}$/)],
+      ],
+      tipoVehiculo: [data?.vehicle?.vehicleType || '', Validators.required],
+      plaza: [data?.vehicle?.assignedSpot || '', Validators.required],
+      tipoAlimentacion: [data?.vehicle?.fuelType || '', Validators.required],
+      horaEntrada: [data?.vehicle?.entryTime || '', Validators.required],
     });
   }
   ngOnInit(): void {
@@ -108,25 +120,46 @@ export class VehicleFormComponent implements OnInit {
         entryTime: this.vehiculoForm.get('horaEntrada')?.value,
         exitTime: null,
       };
+      console.log(dataSend)
+      if (!this.isEdit) {
+        this.vehicleService.saveVehicle(dataSend).subscribe({
+          next: () => {
+            const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
+            const idSpot = this.vehiculoForm.get('plaza')?.value;
+            this.parkingService.updateParkingSpot(idTipo, idSpot);
+            this.dialogRef.close(true);
 
-      this.vehicleService.saveVehicle(dataSend).subscribe({
-        next: () => {
-          const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
-          const idSpot = this.vehiculoForm.get('plaza')?.value;
-          this.parkingService.updateParkingSpot(idTipo, idSpot);
-          this.dialogRef.close(true);
+            this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+            });
+          },
+          error: (err) => {
+            console.error('Error al guardar el vehículo:', err);
+            alert('Error al guardar el vehículo');
+          },
+        });
+      }else{
+        this.vehicleService.updateVehicle(dataSend).subscribe({
+          next: () => {
+            const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
+            const idSpot = this.vehiculoForm.get('plaza')?.value;
+            this.parkingService.updateParkingSpot(idTipo, idSpot);
+            this.dialogRef.close(true);
 
-          this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
-        },
-        error: (err) => {
-          console.error('Error al guardar el vehículo:', err);
-          alert('Error al guardar el vehículo');
-        },
-      });
+            this.snackBar.open('Vehículo editado con éxito', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+            });
+          },
+          error: (err) => {
+            console.error('Error al guardar el vehículo:', err);
+            alert('Error al guardar el vehículo');
+          },
+        });
+      }
     }
   }
 }

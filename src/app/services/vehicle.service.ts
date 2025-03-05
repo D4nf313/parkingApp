@@ -33,7 +33,6 @@ export class VehicleService {
     const index = vehicles.findIndex(
       (v) => v.licensePlate === updatedVehicle.licensePlate
     );
-console.log(index)
     if (index !== -1) {
       vehicles[index] = updatedVehicle; // Sobreescribe el vehículo con los nuevos datos
       console.log(vehicles)

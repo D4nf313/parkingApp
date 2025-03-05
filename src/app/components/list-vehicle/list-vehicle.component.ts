@@ -8,8 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ParkingService } from '../../services/parking.service';
 import { ExitVehicleComponent } from '../dialog/exit-vehicle/exit-vehicle.component';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InvoiceOneComponent } from '../dialog/invoice-one/invoice-one.component';
+import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
 @Component({
   selector: 'app-list-vehicle',
   imports: [
@@ -36,11 +37,11 @@ export class ListVehicleComponent implements OnInit {
     private vehicleService: VehicleService,
     public dialog: MatDialog,
     private parkingService: ParkingService,
-    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.dataSource = this.vehicleService.getVehicles();
+    console.log(this.dataSource)
   }
 
   darSalida(vehicle: Vehicle): void {
@@ -65,6 +66,14 @@ export class ListVehicleComponent implements OnInit {
 
         // Actualizar el estado del estacionamiento
       }
+    });
+  }
+
+  editar(vehicle:Vehicle){
+    const dialogRef = this.dialog.open(VehicleFormComponent, {
+      width: '1200px',
+      height: '650px',
+      data: { vehicle } // Envía el objeto vehicle al modal
     });
   }
 }

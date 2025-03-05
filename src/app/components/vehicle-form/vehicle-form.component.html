@@ -1,6 +1,8 @@
 <div class="container-all">
   <div class="center">
-    <h1>Registrar nuevo vehiculo</h1>
+    <h1 *ngIf="!isEdit">Registrar nuevo vehículo</h1>
+    <h1 *ngIf="isEdit">Editar registro de vehículo</h1>
+    
   </div>
   <div class="container-form">
     <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
@@ -93,7 +95,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Plaza:</mat-label>
-        <mat-select formControlName="plaza" [disabled]="isPlazaDisabled">
+        <mat-select formControlName="plaza" >
             <mat-option *ngFor="let plaza of plazas" [value]="plaza.id"
             [disabled]="plaza.occupied">
               {{ plaza.id }}  ({{ plaza.occupied ? 'Ocupado' : 'Disponible' }})
@@ -129,7 +131,7 @@
           type="submit"
           [disabled]="vehiculoForm.invalid"
         >
-          Registrar Vehículo
+     Guardar
         </button>
       </div>
     </form>
