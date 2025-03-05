@@ -32,8 +32,14 @@ export class VehicleFormComponent {
   vehiculoForm!: FormGroup;
 
   tiposVehiculo = [
-    { value: 'carro', label: 'Carro' },
-    { value: 'moto', label: 'Moto' },
+    { id:1, label: 'Carro' },
+    { id:2, label: 'Moto' },
+  ];
+
+  tiposAlimentacion = [
+    { id: 1, label: 'Eléctrico' },
+    { id: 2, label: 'Híbrido' },
+    { id: 3, label: 'Combustible' }
   ];
 
   constructor(
@@ -53,7 +59,9 @@ export class VehicleFormComponent {
       cedula: ['', [Validators.required]], // Cédula de 10 dígitos
       correo: ['', [Validators.required, Validators.email]], // Correo electrónico válido
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], // Teléfono de 10 dígitos
-      tipoVehiculo: ['', Validators.required], // Tipo de vehículo (select)
+      tipoVehiculo: ['', Validators.required], 
+      tipoAlimentacion: ['', Validators.required], 
+      horaEntrada:['', Validators.required]
     });
   }
 
@@ -67,7 +75,10 @@ export class VehicleFormComponent {
         idNumber: this.vehiculoForm.get('cedula')?.value, // Mapear cedula a idNumber
         email: this.vehiculoForm.get('correo')?.value, // Mapear correo a email
         phone: this.vehiculoForm.get('telefono')?.value, // Mapear telefono a phone
-        vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value, // Mapear tipoVehiculo a vehicleType
+        vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value, 
+        entryTime: this.vehiculoForm.get('horaEntrada')?.value,// Mapear tipoVehiculo a vehicleType
+        exitTime:null
+
       };
 
       this.vehicleService.saveVehicle(dataSend).subscribe({

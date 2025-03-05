@@ -67,12 +67,21 @@
           El teléfono debe tener 10 dígitos.
         </mat-error>
       </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Hora de Entrada</mat-label>
+        <input matInput type="time" formControlName="horaEntrada" />
+        <mat-error
+          *ngIf="vehiculoForm.get('horaEntrada')?.hasError('required')"
+        >
+          La hora de entrada es obligatoria.
+        </mat-error>
+      </mat-form-field>
 
       <!-- Select Tipo de Vehículo -->
       <mat-form-field appearance="fill">
         <mat-label>Tipo de Vehículo</mat-label>
         <mat-select formControlName="tipoVehiculo">
-          <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.value">
+          <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
             {{ tipo.label }}
           </mat-option>
         </mat-select>
@@ -80,6 +89,22 @@
           *ngIf="vehiculoForm.get('tipoVehiculo')?.hasError('required')"
         >
           El tipo de vehículo es obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo de Alimentación</mat-label>
+        <mat-select formControlName="tipoAlimentacion">
+          <mat-option *ngFor="let tipo of tiposAlimentacion" [value]="tipo.id">
+            {{ tipo.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="vehiculoForm.get('tipoAlimentacion')?.hasError('required')"
+        >
+          El tipo de alimentación es obligatorio.
         </mat-error>
       </mat-form-field>
       <div class="container-btn">
