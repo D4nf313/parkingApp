@@ -9,7 +9,14 @@ export const routes: Routes = [
         ),
     },
     {
-      path: 'vehicles',
+      path: 'form-vehicles',
+      loadComponent: () =>
+        import('./components/vehicle-form/vehicle-form.component').then(
+          (m) => m.VehicleFormComponent
+        ),
+    },
+    {
+      path: 'list-vehicles',
       loadComponent: () =>
         import('./components/list-vehicle/list-vehicle.component').then(
           (m) => m.ListVehicleComponent
