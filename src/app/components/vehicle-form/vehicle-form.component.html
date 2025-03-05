@@ -1,1 +1,100 @@
-<p>vehicle-form works!</p>
+<div class="container-all">
+  <div class="center">
+    <h1>Registrar nuevo vehiculo</h1>
+  </div>
+  <div class="container-form">
+    <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Placa -->
+      <mat-form-field appearance="fill">
+        <mat-label>Placa</mat-label>
+        <input matInput formControlName="placa" placeholder="ABC-123" />
+        <mat-error *ngIf="vehiculoForm.get('placa')?.hasError('required')">
+          La placa es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="vehiculoForm.get('placa')?.hasError('pattern')">
+          Formato de placa inválido (ej: ABC-123).
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Nombre del Dueño -->
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre del Dueño</mat-label>
+        <input
+          matInput
+          formControlName="nombreDueño"
+          placeholder="Juan Pérez"
+        />
+        <mat-error
+          *ngIf="vehiculoForm.get('nombreDueño')?.hasError('required')"
+        >
+          El nombre del dueño es obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Cédula -->
+      <mat-form-field appearance="fill">
+        <mat-label>Cédula</mat-label>
+        <input matInput formControlName="cedula" placeholder="1234567890" />
+        <mat-error *ngIf="vehiculoForm.get('cedula')?.hasError('required')">
+          La cédula es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="vehiculoForm.get('cedula')?.hasError('pattern')">
+          La cédula debe tener 10 dígitos.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Correo -->
+      <mat-form-field appearance="fill">
+        <mat-label>Correo</mat-label>
+        <input
+          matInput
+          formControlName="correo"
+          placeholder="juan@example.com"
+        />
+        <mat-error *ngIf="vehiculoForm.get('correo')?.hasError('required')">
+          El correo es obligatorio.
+        </mat-error>
+        <mat-error *ngIf="vehiculoForm.get('correo')?.hasError('email')">
+          Formato de correo inválido.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Teléfono -->
+      <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" placeholder="0987654321" />
+        <mat-error *ngIf="vehiculoForm.get('telefono')?.hasError('required')">
+          El teléfono es obligatorio.
+        </mat-error>
+        <mat-error *ngIf="vehiculoForm.get('telefono')?.hasError('pattern')">
+          El teléfono debe tener 10 dígitos.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Select Tipo de Vehículo -->
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo de Vehículo</mat-label>
+        <mat-select formControlName="tipoVehiculo">
+          <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.value">
+            {{ tipo.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="vehiculoForm.get('tipoVehiculo')?.hasError('required')"
+        >
+          El tipo de vehículo es obligatorio.
+        </mat-error>
+      </mat-form-field>
+      <div class="container-btn">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="vehiculoForm.invalid"
+        >
+          Registrar Vehículo
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

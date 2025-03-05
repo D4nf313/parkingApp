@@ -1,0 +1,28 @@
+.container-all{
+  padding: 10px;
+}
+  .center{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .container-form {
+    max-width: 800px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Centrar el formulario en la página */
+  }
+  form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los campos se ajusten automáticamente */
+    gap: 16px; /* Espacio entre los campos */
+  }
+
+  .container-btn{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    
+  }
+  
+  mat-form-field {
+    flex: 1 1 calc(50% - 8px); /* Cada campo ocupa el 50% del ancho, menos el espacio del gap */
+  }
