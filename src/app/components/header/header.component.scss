@@ -1,0 +1,28 @@
+/* Estilos para el header */
+.app-header {
+    background-color: #3f51b5; /* Color de fondo (puedes cambiarlo) */
+    color: white; /* Color del texto */
+    padding: 16px; /* Espaciado interno */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    position: fixed; /* Fija el header en la parte superior */
+    top: 0; /* Lo coloca en la parte superior */
+    left: 0; /* Lo alinea a la izquierda */
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  }
+  
+  /* Contenido del header */
+  .header-content {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 0 auto; /* Centra el contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el texto horizontalmente */
+  }
+  
+  /* Estilos para el título */
+  .app-header h1 {
+    margin: 0; /* Elimina el margen predeterminado */
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+  }
