@@ -1,0 +1,19 @@
+<div class="invoice-container">
+  <h1>Factura de Pago</h1>
+  <p class="plate-info">
+    El vehículo de placas <strong>{{ placa }}</strong>
+  </p>
+  <p class="payment-info">
+    Debe pagar: <strong>${{ valor | number : "1.2-2" }}</strong>
+  </p>
+
+  <p *ngIf="descuentoAplicado" class="discount-info">
+    ✅ Se aplicó un descuento ambiental del 25% por ser un vehículo
+    {{ tipoVehiculo }}.
+  </p>
+
+  <div class="actions">
+
+    <button mat-button  color="primary" (click)="dialogRef.close()">Cerrar</button>
+  </div> 
+</div>

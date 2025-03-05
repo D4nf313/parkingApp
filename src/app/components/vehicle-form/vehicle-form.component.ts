@@ -103,6 +103,7 @@ export class VehicleFormComponent implements OnInit {
         email: this.vehiculoForm.get('correo')?.value,
         phone: this.vehiculoForm.get('telefono')?.value,
         vehicleType: this.vehiculoForm.get('tipoVehiculo')?.value,
+        fuelType: this.vehiculoForm.get('tipoAlimentacion')?.value,
         assignedSpot: this.vehiculoForm.get('plaza')?.value,
         entryTime: this.vehiculoForm.get('horaEntrada')?.value,
         exitTime: null,

@@ -39,4 +39,12 @@ export class VehicleService {
 
     return of({ status: 404 }).pipe(delay(1000)); // Retorna un error si no encuentra el vehículo
   }
+
+  getVehicleData(licensePlate: string): Vehicle | null {
+    const vehicles =this.getVehicles();
+    return vehicles.find(v => v.licensePlate === licensePlate) || null;
+  }
+
+
+
 }
