@@ -1,5 +1,7 @@
 # ParkingApp
 
+Aplicacion hecha con angualr 19 angular material usando session storage para simular un backend el sistema valida que puestos de parqueo hay disponible se asigna parqueadero, calcula el costo del parqueadero dependiendo el tipo de vehiculo y el tipo de combustible que usa(se aplica descuento en huibridos y electricos) hace un cierre de parqueadero calculando la ganacia total, cuimple con las reglas de negocio y mantiene la persistencia en los datos
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.3.
 
 ## Development server
