@@ -1,4 +1,5 @@
 export interface Vehicle {
+  id?:number | null;
   licensePlate: string; 
   ownerName: string; 
   idNumber: string; 

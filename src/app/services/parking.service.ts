@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ParkingSpot } from '../components/vehicle-form/vehicle-form.interface';
+import { ParkingSpot } from '../components/vehicle-form.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ParkingService {
   private readonly parkingCarKey = 'parkingCar';
@@ -13,7 +13,7 @@ export class ParkingService {
     { id: 'C2', occupied: false },
     { id: 'C3', occupied: false },
     { id: 'C4', occupied: false },
-    { id: 'C5', occupied: false }
+    { id: 'C5', occupied: false },
   ];
 
   private parkingMoto: ParkingSpot[] = [
@@ -22,7 +22,7 @@ export class ParkingService {
     { id: 'M3', occupied: false },
     { id: 'M4', occupied: false },
     { id: 'M5', occupied: false },
-    { id: 'M6', occupied: false }
+    { id: 'M6', occupied: false },
   ];
   constructor() {
     this.loadParkingData();
@@ -36,48 +36,48 @@ export class ParkingService {
     if (motoData) this.parkingMoto = JSON.parse(motoData);
   }
 
-   saveParkingData(): void {
-      sessionStorage.setItem(this.parkingCarKey, JSON.stringify(this.parkingCar));
-      sessionStorage.setItem(this.parkingMotoKey, JSON.stringify(this.parkingMoto));
-    }
-  
-  
-    updateParkingSpot(idTipo: number, idSpot: string): void {
-      if (idTipo === 1) {
-        // Buscar el puesto en el array de carros
-        const spot = this.parkingCar.find(s => s.id === idSpot);
-        if (spot) {
-          spot.occupied = !spot.occupied; // Cambiar estado
-        }
-      } else if (idTipo === 2) {
-        // Buscar el puesto en el array de motos
-        const spot = this.parkingMoto.find(s => s.id === idSpot);
-        if (spot) {
-          spot.occupied = !spot.occupied; // Cambiar estado
-        }
-      }
-      // Guardar los cambios en sessionStorage
-      this.saveParkingData();
-    }
-  
-    getParkingSpotsCar(): Observable<ParkingSpot[]> {
-      return of(this.parkingCar);
-    }
-  
-     
-    getParkingSpotsMoto(): Observable<ParkingSpot[]> {
-      return of(this.parkingMoto);
-    }
+  saveParkingData(): void {
+    sessionStorage.setItem(this.parkingCarKey, JSON.stringify(this.parkingCar));
+    sessionStorage.setItem(
+      this.parkingMotoKey,
+      JSON.stringify(this.parkingMoto)
+    );
+  }
 
-    getParkingSummary(): { occupied: number; available: number } {
-      const totalOccupied =
-        this.parkingCar.filter(s => s.occupied).length +
-        this.parkingMoto.filter(s => s.occupied).length;
-  
-      const totalAvailable =
-        this.parkingCar.length + this.parkingMoto.length - totalOccupied;
-  
-      return { occupied: totalOccupied, available: totalAvailable };
+  updateParkingSpot(idTipo: number, idSpot: string): void {
+    if (idTipo === 1) {
+      // Buscar el puesto en el array de carros
+      const spot = this.parkingCar.find((s) => s.id === idSpot);
+      if (spot) {
+        spot.occupied = !spot.occupied; // Cambiar estado
+      }
+    } else if (idTipo === 2) {
+      // Buscar el puesto en el array de motos
+      const spot = this.parkingMoto.find((s) => s.id === idSpot);
+      if (spot) {
+        spot.occupied = !spot.occupied; // Cambiar estado
+      }
     }
-  
+    // Guardar los cambios en sessionStorage
+    this.saveParkingData();
+  }
+
+  getParkingSpotsCar(): Observable<ParkingSpot[]> {
+    return of(this.parkingCar);
+  }
+
+  getParkingSpotsMoto(): Observable<ParkingSpot[]> {
+    return of(this.parkingMoto);
+  }
+
+  getParkingSummary(): { occupied: number; available: number } {
+    const totalOccupied =
+      this.parkingCar.filter((s) => s.occupied).length +
+      this.parkingMoto.filter((s) => s.occupied).length;
+
+    const totalAvailable =
+      this.parkingCar.length + this.parkingMoto.length - totalOccupied;
+
+    return { occupied: totalOccupied, available: totalAvailable };
+  }
 }

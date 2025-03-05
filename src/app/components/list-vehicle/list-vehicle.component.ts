@@ -3,7 +3,7 @@ import { MatTableModule } from '@angular/material/table'; // Importa MatTableMod
 import { MatPaginatorModule } from '@angular/material/paginator'; // Opcional: para paginación
 import { MatSortModule } from '@angular/material/sort'; // Opcional: para ordenar
 import { VehicleService } from '../../services/vehicle.service';
-import { Vehicle } from '../vehicle-form/vehicle-form.interface';
+import { Vehicle } from '../vehicle-form.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ParkingService } from '../../services/parking.service';
@@ -14,8 +14,8 @@ import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
 @Component({
   selector: 'app-list-vehicle',
   imports: [
-    MatTableModule, // Importa MatTableModule
-    MatPaginatorModule, // Opcional: para paginación
+    MatTableModule,
+    MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
     MatSnackBarModule,
@@ -36,12 +36,12 @@ export class ListVehicleComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     public dialog: MatDialog,
-    private parkingService: ParkingService,
+    private parkingService: ParkingService
   ) {}
 
   ngOnInit(): void {
     this.dataSource = this.vehicleService.getVehicles();
-    console.log(this.dataSource)
+    console.log(this.dataSource);
   }
 
   darSalida(vehicle: Vehicle): void {
@@ -69,11 +69,17 @@ export class ListVehicleComponent implements OnInit {
     });
   }
 
-  editar(vehicle:Vehicle){
+  editar(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(VehicleFormComponent, {
       width: '1200px',
       height: '650px',
-      data: { vehicle } // Envía el objeto vehicle al modal
+      data: { vehicle }, // Envía el objeto vehicle al modal
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.dataSource = this.vehicleService.getVehicles();
+      }
     });
   }
 }

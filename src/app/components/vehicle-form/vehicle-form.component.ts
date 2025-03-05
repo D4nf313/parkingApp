@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ParkingSpot, Vehicle } from './vehicle-form.interface';
+import { ParkingSpot, Vehicle } from '../vehicle-form.interface';
 import { VehicleService } from '../../services/vehicle.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ParkingService } from '../../services/parking.service';
@@ -34,6 +34,7 @@ export class VehicleFormComponent implements OnInit {
   vehicle?: Vehicle;
   isPlazaDisabled = true;
   isEdit: boolean = false;
+  idVehicle?: number | null;
   tiposVehiculo = [
     { id: 1, label: 'Carro' },
     { id: 2, label: 'Moto' },
@@ -56,6 +57,7 @@ export class VehicleFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     if (data) {
+      this.idVehicle = data.vehicle?.id;
       this.isEdit = true;
       console.log(this.isEdit);
     }
@@ -109,6 +111,7 @@ export class VehicleFormComponent implements OnInit {
   onSubmit() {
     if (this.vehiculoForm.valid) {
       const dataSend: Vehicle = {
+        id: this.idVehicle ?? null,
         licensePlate: this.vehiculoForm.get('placa')?.value,
         ownerName: this.vehiculoForm.get('nombreDueño')?.value,
         idNumber: this.vehiculoForm.get('cedula')?.value,
@@ -120,7 +123,7 @@ export class VehicleFormComponent implements OnInit {
         entryTime: this.vehiculoForm.get('horaEntrada')?.value,
         exitTime: null,
       };
-      console.log(dataSend)
+      console.log(dataSend);
       if (!this.isEdit) {
         this.vehicleService.saveVehicle(dataSend).subscribe({
           next: () => {
@@ -140,7 +143,8 @@ export class VehicleFormComponent implements OnInit {
             alert('Error al guardar el vehículo');
           },
         });
-      }else{
+      } else {
+        console.log('es edit');
         this.vehicleService.updateVehicle(dataSend).subscribe({
           next: () => {
             const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;

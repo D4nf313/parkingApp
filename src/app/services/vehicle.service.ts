@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ParkingSpot,
-  Vehicle,
-} from '../components/vehicle-form/vehicle-form.interface';
+import { ParkingSpot, Vehicle } from '../components/vehicle-form.interface';
 import { delay, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -15,6 +12,8 @@ export class VehicleService {
 
   saveVehicle(vehicle: Vehicle): Observable<{ status: number }> {
     const vehicles = this.getVehicles();
+    vehicle.id = vehicle.id || new Date().getTime();
+
     vehicles.push(vehicle);
     sessionStorage.setItem(this.storageKey, JSON.stringify(vehicles));
     return of({ status: 200 }).pipe(delay(1000));
@@ -28,19 +27,17 @@ export class VehicleService {
   }
 
   updateVehicle(updatedVehicle: Vehicle): Observable<{ status: number }> {
-    console.log(4111)
+    console.log(updatedVehicle);
     let vehicles = this.getVehicles();
-    const index = vehicles.findIndex(
-      (v) => v.licensePlate === updatedVehicle.licensePlate
-    );
+    console.log(vehicles);
+    const index = vehicles.findIndex((v) => v.id === updatedVehicle.id);
     if (index !== -1) {
       vehicles[index] = updatedVehicle; // Sobreescribe el vehículo con los nuevos datos
-      console.log(vehicles)
-      console.log(updatedVehicle)
+      console.log(vehicles[index]);
+      console.log(vehicles);
       sessionStorage.setItem(this.storageKey, JSON.stringify(vehicles));
       return of({ status: 200 }).pipe(delay(1000));
     }
-    console.log(vehicles);
     return of({ status: 404 }).pipe(delay(1000)); // Retorna un error si no encuentra el vehículo
   }
 
