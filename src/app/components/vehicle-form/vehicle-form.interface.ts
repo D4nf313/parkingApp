@@ -9,6 +9,7 @@ export interface Vehicle {
   entryTime: string; // Hora de entrada (formato HH:MM)
   exitTime: string | null;
   assignedSpot: string;
+  amountToPay?: number;
 }
 
 export interface ParkingSpot {

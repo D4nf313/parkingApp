@@ -12,8 +12,9 @@ export class InvoiceService {
   constructor(private vehicleService: VehicleService) {}
 
   calcularTarifa(licensePlate: string): { valor: number | null; tipoVehiculo: string; descuentoAplicado: boolean } {
+    console.log(licensePlate)
     const vehicle = this.vehicleService.getVehicleData(licensePlate);
-
+console.log(vehicle)
     if (!vehicle || !vehicle.entryTime || !vehicle.exitTime) {
       console.warn('No se encontraron datos de entrada o salida.');
       return { valor: null, tipoVehiculo: '', descuentoAplicado: false };

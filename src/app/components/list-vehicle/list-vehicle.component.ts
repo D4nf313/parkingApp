@@ -35,7 +35,6 @@ export class ListVehicleComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private invoiceService:InvoiceService,
     public dialog: MatDialog,
     private parkingService: ParkingService,
     private snackBar: MatSnackBar
@@ -48,38 +47,26 @@ export class ListVehicleComponent implements OnInit {
   darSalida(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(ExitVehicleComponent, {
       width: '450px',
-      data: { entryTime: vehicle.entryTime }, 
+      data: { entryTime: vehicle.entryTime },
     });
 
-    vehicle.exitTime = new Date().toLocaleTimeString();
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        
         vehicle.exitTime = result;
         vehicle.assignedSpot = '';
-        const placa =vehicle.licensePlate;
+        this.vehicleService.updateVehicle(vehicle);
+        const placa = vehicle.licensePlate;
         const tipo = Number(vehicle.vehicleType);
         const spot = vehicle.assignedSpot;
-        this.vehicleService.updateVehicle(vehicle).subscribe((response) => {
-
-
-
-          if (response.status === 200) {
-
-const dialogRef = this.dialog.open(InvoiceOneComponent, {
-  width: '450px',
-  data: { licensePlate: placa}, 
-});
-
-            this.snackBar.open('Se ha dado salida al vehiculo correctamente', 'Cerrar', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'bottom',
-            });
-          } else {
-            console.log('Error al actualizar el vehículo');
-          }
+      this.dialog.open(InvoiceOneComponent, {
+          width: '450px',
+          data: { licensePlate: placa },
         });
+
+
+   
 
         // Actualizar el estado del estacionamiento
         this.parkingService.updateParkingSpot(tipo, spot);
