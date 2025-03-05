@@ -6,6 +6,7 @@ import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
 import { ParkingService } from '../../services/parking.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
+import { InvoiceService } from '../../services/invoice.service';
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, MatButtonModule, RouterModule, MatSnackBarModule],
@@ -16,10 +17,12 @@ export class DashboardComponent implements OnInit {
   disponibles!: number;
   ocupados!: number;
   bandReporte: boolean = false;
+  totalAmount:number=0;
   constructor(
     public dialog: MatDialog,
     private parkingService: ParkingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private invoiceService:InvoiceService
   ) {}
 
   ngOnInit() {
@@ -28,7 +31,6 @@ export class DashboardComponent implements OnInit {
 
   getSummary() {
     const summary = this.parkingService.getParkingSummary();
-    console.log(summary)
     this.ocupados = summary.occupied;
     this.disponibles = summary.available;
   }
@@ -41,10 +43,7 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.getSummary();
-      } else {
-        console.log('El usuario canceló');
-        // Aquí puedes manejar la lógica si el usuario canceló
-      }
+      } 
     });
   }
 
@@ -59,6 +58,10 @@ export class DashboardComponent implements OnInit {
       });
       return;
     } else {
+      const informes = this.invoiceService.getInforme();
+
+      // Sumar todos los valores de amountToPay
+      this.totalAmount = informes.reduce((sum, informe) => sum + informe.amountToPay, 0);
     }
   }
 }

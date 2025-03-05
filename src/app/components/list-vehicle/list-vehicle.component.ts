@@ -49,7 +49,6 @@ export class ListVehicleComponent implements OnInit {
       data: { entryTime: vehicle.entryTime },
     });
 
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const placa = vehicle.licensePlate;
@@ -59,17 +58,12 @@ export class ListVehicleComponent implements OnInit {
         vehicle.exitTime = result;
         vehicle.assignedSpot = '';
         this.vehicleService.updateVehicle(vehicle);
-      this.dialog.open(InvoiceOneComponent, {
+        this.dialog.open(InvoiceOneComponent, {
           width: '450px',
           data: { licensePlate: placa },
         });
 
-
-   console.log(tipo)
-   console.log(spot)
-
         // Actualizar el estado del estacionamiento
-       
       }
     });
   }

@@ -33,7 +33,6 @@ export class InvoiceOneComponent {
       this.data.licensePlate
     );
     this.valor = resultado.valor;
-    console.log(this.valor)
     this.tipoVehiculo = resultado.tipoVehiculo;
     this.descuentoAplicado = resultado.descuentoAplicado;
     
@@ -44,7 +43,9 @@ export class InvoiceOneComponent {
     let vehicleExit: any = this.vehicleService.getVehicleData(this.placa);
     vehicleExit.amountToPay = this.valor;
     this.vehicleService.updateVehicle(vehicleExit).subscribe((response) => {
+      console.log(vehicleExit)
       if (response.status === 200) {
+
         this.snackBar.open(
           'Se ha dado salida al vehiculo correctamente',
           'Cerrar',

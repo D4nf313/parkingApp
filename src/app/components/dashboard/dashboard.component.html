@@ -17,7 +17,7 @@
     <div class="col-md-4 plazas-container">
       <div class="box">Plazas Ocupadas: {{ this.ocupados }}</div>
       <div class="box">Plazas Disponibles: {{ this.disponibles }}</div>
-      <div class="box" *ngIf="bandReporte">Total Ganancias: {{ this.disponibles }}</div>
+      <div class="box" *ngIf="bandReporte">Total Ganancias: {{ this.totalAmount | number:'1.2-2'}} </div>
     </div>
   </div>
 </div>
