@@ -68,5 +68,16 @@ export class ParkingService {
     getParkingSpotsMoto(): Observable<ParkingSpot[]> {
       return of(this.parkingMoto);
     }
+
+    getParkingSummary(): { occupied: number; available: number } {
+      const totalOccupied =
+        this.parkingCar.filter(s => s.occupied).length +
+        this.parkingMoto.filter(s => s.occupied).length;
+  
+      const totalAvailable =
+        this.parkingCar.length + this.parkingMoto.length - totalOccupied;
+  
+      return { occupied: totalOccupied, available: totalAvailable };
+    }
   
 }
