@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
-
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [ HeaderComponent,     MatButtonModule,],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
