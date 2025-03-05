@@ -38,9 +38,6 @@
         <mat-error *ngIf="vehiculoForm.get('cedula')?.hasError('required')">
           La cédula es obligatoria.
         </mat-error>
-        <mat-error *ngIf="vehiculoForm.get('cedula')?.hasError('pattern')">
-          La cédula debe tener 10 dígitos.
-        </mat-error>
       </mat-form-field>
 
       <!-- Campo Correo -->
