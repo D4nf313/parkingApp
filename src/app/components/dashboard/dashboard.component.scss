@@ -1,38 +1,41 @@
+.plazas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos en el eje X */
+  justify-content: center; /* Centra en el eje Y si es necesario */
+  height: 100vh; /* Ocupar toda la altura de la pantalla */
+}
 
-  
+.box {
+  padding: 20px;
+  text-align: left;
+  font-weight: bold; /* Negrita */
+  font-size: 32px; /* Texto más grande */
+  width: 100%; /* Ancho completo dentro de la columna */
+}
 
-  .plazas-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos en el eje X */
-    justify-content: center; /* Centra en el eje Y si es necesario */
-    height: 100vh; /* Ocupar toda la altura de la pantalla */
-  }
-  
-  .box {
-    padding: 20px;
-    text-align: left;
-    font-weight: bold; /* Negrita */
-    font-size: 32px; /* Texto más grande */
-    width: 100%; /* Ancho completo dentro de la columna */
-  }
-  
-.container-btn{
+.container-btn {
   display: flex; /* Activa Flexbox */
   flex-direction: column;
   align-items: center; /* Centra verticalmente */
   justify-content: center; /* Centra horizontalmente */
   height: 100%;
 }
-  .register-btn{
+.btn {
+  margin-bottom: 15px;
+}
 
-    margin-bottom: 15px;
-  }
+.custom-btn {
+  background-color: orange !important; /* Color personalizado */
+  color: white !important; /* Color del texto */
+}
 
-
-  .mat-mdc-unelevated-button:not(:disabled) {
-    color: var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));
-    background-color: var(--mdc-filled-button-container-color, var(--mat-sys-primary));
-    font-size: 25px;
-    padding: 36px;
+.mat-mdc-unelevated-button:not(:disabled) {
+  color: var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));
+  background-color: var(
+    --mdc-filled-button-container-color,
+    var(--mat-sys-primary)
+  );
+  font-size: 25px;
+  padding: 36px;
 }

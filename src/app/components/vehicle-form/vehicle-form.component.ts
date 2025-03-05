@@ -114,7 +114,7 @@ export class VehicleFormComponent implements OnInit {
           const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
           const idSpot = this.vehiculoForm.get('plaza')?.value;
           this.parkingService.updateParkingSpot(idTipo, idSpot);
-          this.dialogRef.close();
+          this.dialogRef.close(true);
 
           this.snackBar.open('Vehículo guardado con éxito', 'Cerrar', {
             duration: 3000,

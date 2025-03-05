@@ -43,7 +43,6 @@ export class InvoiceOneComponent {
   actualizarBd() {
     let vehicleExit: any = this.vehicleService.getVehicleData(this.placa);
     vehicleExit.amountToPay = this.valor;
-    console.log(vehicleExit)
     this.vehicleService.updateVehicle(vehicleExit).subscribe((response) => {
       if (response.status === 200) {
         this.snackBar.open(
@@ -59,6 +58,5 @@ export class InvoiceOneComponent {
         console.log('Error al actualizar el vehículo');
       }
     });
-    console.log(vehicleExit);
   }
 }

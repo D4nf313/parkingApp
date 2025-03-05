@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ParkingService } from '../../services/parking.service';
 import { ExitVehicleComponent } from '../dialog/exit-vehicle/exit-vehicle.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { InvoiceService } from '../../services/invoice.service';
 import { InvoiceOneComponent } from '../dialog/invoice-one/invoice-one.component';
 @Component({
   selector: 'app-list-vehicle',
@@ -53,23 +52,24 @@ export class ListVehicleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        
-        vehicle.exitTime = result;
-        vehicle.assignedSpot = '';
-        this.vehicleService.updateVehicle(vehicle);
         const placa = vehicle.licensePlate;
         const tipo = Number(vehicle.vehicleType);
         const spot = vehicle.assignedSpot;
+        this.parkingService.updateParkingSpot(tipo, spot);
+        vehicle.exitTime = result;
+        vehicle.assignedSpot = '';
+        this.vehicleService.updateVehicle(vehicle);
       this.dialog.open(InvoiceOneComponent, {
           width: '450px',
           data: { licensePlate: placa },
         });
 
 
-   
+   console.log(tipo)
+   console.log(spot)
 
         // Actualizar el estado del estacionamiento
-        this.parkingService.updateParkingSpot(tipo, spot);
+       
       }
     });
   }
