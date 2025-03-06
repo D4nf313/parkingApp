@@ -26,6 +26,7 @@ export class ParkingService {
   ];
   constructor() {
     this.loadParkingData();
+    console.log(this.parkingCar,this.parkingMoto)
   }
 
   private loadParkingData(): void {

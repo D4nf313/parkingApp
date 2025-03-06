@@ -85,7 +85,7 @@ export class ListVehicleComponent implements OnInit {
     });
   }
 
-  eliminar(id: number) {
+  eliminar(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       width: '300px',
       data: { message: '¿Estás seguro de eliminar este registro?' },
@@ -93,18 +93,25 @@ export class ListVehicleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.vehicleService.delete(id).subscribe((response) => {
-          if (response.status === 200) {
-            this.snackBar.open('Registro eliminado con éxito', 'Cerrar', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'bottom',
-            });
-            this.dataSource = this.vehicleService.getVehicles();
-          } else {
-            console.log('Error: Vehículo no encontrado');
-          }
-        });
+        const id = vehicle.id;
+        if (id) {
+          this.vehicleService.delete(id).subscribe((response) => {
+            if (response.status === 200) {
+              this.parkingService.updateParkingSpot(
+                vehicle.vehicleType,
+                vehicle.assignedSpot
+              );
+              this.snackBar.open('Registro eliminado con éxito', 'Cerrar', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+              });
+              this.dataSource = this.vehicleService.getVehicles();
+            } else {
+              console.log('Error: Vehículo no encontrado');
+            }
+          });
+        }
       }
     });
   }
