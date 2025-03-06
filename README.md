@@ -1,61 +1,49 @@
-# ParkingApp
+Sistema de Gestión de Parqueadero
+Una aplicación web desarrollada con Angular 19 y Angular Material, diseñada para gestionar de forma integral un parqueadero.
 
-Aplicacion hecha con angualr 19 angular material usando session storage para simular un backend el sistema valida que puestos de parqueo hay disponible se asigna parqueadero, calcula el costo del parqueadero dependiendo el tipo de vehiculo y el tipo de combustible que usa(se aplica descuento en huibridos y electricos) hace un cierre de parqueadero calculando la ganacia total, cuimple con las reglas de negocio y mantiene la persistencia en los datos
+Descripción
+Esta aplicación simula un sistema de parqueadero en el que se valida la disponibilidad de puestos, se asigna el espacio correspondiente y se calcula el costo de estacionamiento según el tipo de vehículo y el tipo de combustible (aplicando descuentos para vehículos híbridos y eléctricos). Además, genera una factura detallada por cada salida de vehículo, permite la edición y eliminación de registros, y realiza un cierre del parqueadero calculando la ganancia total, cumpliendo con las reglas de negocio definidas.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.3.
+Características
+Validación y Asignación de Puestos:
+Verifica la disponibilidad de espacios y asigna un parqueadero al vehículo.
 
-## Development server
+Cálculo de Costos:
+Determina el costo del parqueo según:
 
-To start a local development server, run:
+Tipo de vehículo.
+Tipo de combustible (con descuentos para híbridos y eléctricos).
+Cierre del Parqueadero:
+Realiza el cierre diario del parqueadero calculando la ganancia total.
 
-```bash
-ng serve
-```
+Persistencia de Datos:
+Utiliza Session Storage para simular un backend y mantener la persistencia de la información durante la sesión.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Facturación:
+Genera y muestra una factura detallada para cada salida de vehículo.
 
-## Code scaffolding
+Gestión de Registros:
+Permite editar y eliminar registros, facilitando la administración del sistema.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Tecnologías Utilizadas
+Angular 19: Framework principal para el desarrollo de la aplicación.
+Angular Material: Biblioteca de componentes UI para un diseño moderno y responsivo.
+Session Storage: Para simular el backend y garantizar la persistencia de datos en la sesión.
+Requisitos
+Node.js (versión LTS recomendada)
+Angular CLI
 
-```bash
-ng generate component component-name
-```
+Ingreso de Vehículos:
+Ingresa los datos del vehículo para asignarle un parqueadero.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Cálculo y Facturación:
+Al registrar la salida, el sistema calculará el costo y mostrará una factura detallada.
 
-```bash
-ng generate --help
-```
+Gestión de Registros:
+Edita o elimina registros directamente desde la interfaz para mantener el control actualizado.
 
-## Building
+Cierre de Parqueadero:
+Realiza el cierre del parqueadero y consulta la ganancia total del período.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Contribuciones
+Las contribuciones son bienvenidas. Si deseas mejorar o añadir nuevas funcionalidades, abre un issue o crea un pull request en el repositorio.
