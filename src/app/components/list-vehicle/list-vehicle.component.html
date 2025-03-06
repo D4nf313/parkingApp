@@ -38,7 +38,7 @@
             <button mat-button (click)="editar(vehicle)">
               Editar
             </button>
-            <button mat-button [disabled]="vehicle.exitTime !== null">
+            <button mat-button (click)="eliminar(vehicle.id)">
               Eliminar
             </button>
           </td>

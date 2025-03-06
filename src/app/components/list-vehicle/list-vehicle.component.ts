@@ -8,9 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ParkingService } from '../../services/parking.service';
 import { ExitVehicleComponent } from '../dialog/exit-vehicle/exit-vehicle.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { InvoiceOneComponent } from '../dialog/invoice-one/invoice-one.component';
 import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
+import { DialogConfirmComponent } from '../dialog/dialog-confirm/dialog-confirm.component';
 @Component({
   selector: 'app-list-vehicle',
   imports: [
@@ -36,7 +37,8 @@ export class ListVehicleComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     public dialog: MatDialog,
-    private parkingService: ParkingService
+    private parkingService: ParkingService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +81,30 @@ export class ListVehicleComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.dataSource = this.vehicleService.getVehicles();
+      }
+    });
+  }
+
+  eliminar(id: number) {
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      width: '300px',
+      data: { message: '¿Estás seguro de eliminar este registro?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.vehicleService.delete(id).subscribe((response) => {
+          if (response.status === 200) {
+            this.snackBar.open('Registro eliminado con éxito', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+            });
+            this.dataSource = this.vehicleService.getVehicles();
+          } else {
+            console.log('Error: Vehículo no encontrado');
+          }
+        });
       }
     });
   }
