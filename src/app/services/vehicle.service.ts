@@ -27,14 +27,10 @@ export class VehicleService {
   }
 
   updateVehicle(updatedVehicle: Vehicle): Observable<{ status: number }> {
-    console.log(updatedVehicle);
     let vehicles = this.getVehicles();
-    console.log(vehicles);
     const index = vehicles.findIndex((v) => v.id === updatedVehicle.id);
     if (index !== -1) {
       vehicles[index] = updatedVehicle; // Sobreescribe el vehículo con los nuevos datos
-      console.log(vehicles[index]);
-      console.log(vehicles);
       sessionStorage.setItem(this.storageKey, JSON.stringify(vehicles));
       return of({ status: 200 }).pipe(delay(1000));
     }
@@ -49,14 +45,13 @@ export class VehicleService {
   delete(id: number): Observable<{ status: number }> {
     let vehicles = this.getVehicles();
     const index = vehicles.findIndex((v) => v.id === id);
-  
+
     if (index !== -1) {
       vehicles.splice(index, 1); // Elimina el vehículo del array
       sessionStorage.setItem(this.storageKey, JSON.stringify(vehicles));
       return of({ status: 200 }).pipe(delay(1000)); // Simula respuesta del backend
     }
-  
+
     return of({ status: 404 }).pipe(delay(1000)); // Si no se encuentra, retorna error
   }
-  
 }

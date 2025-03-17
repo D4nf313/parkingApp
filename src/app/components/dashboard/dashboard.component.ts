@@ -48,8 +48,9 @@ export class DashboardComponent implements OnInit {
   }
 
   reporte() {
-    this.bandReporte = true;
+
     const summary = this.parkingService.getParkingSummary();
+    console.log(summary)
     if (summary.occupied > 0) {
       this.snackBar.open('Necesita sacar todos los vehiculos', 'Cerrar', {
         duration: 3000,
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit {
       });
       return;
     } else {
+      this.bandReporte = true;
       const informes = this.invoiceService.getInforme();
 
       // Sumar todos los valores de amountToPay

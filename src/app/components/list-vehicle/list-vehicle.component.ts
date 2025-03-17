@@ -43,7 +43,6 @@ export class ListVehicleComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = this.vehicleService.getVehicles();
-    console.log(this.dataSource);
   }
 
   darSalida(vehicle: Vehicle): void {
@@ -66,7 +65,6 @@ export class ListVehicleComponent implements OnInit {
           data: { licensePlate: placa },
         });
 
-        // Actualizar el estado del estacionamiento
       }
     });
   }

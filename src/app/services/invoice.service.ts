@@ -40,7 +40,12 @@ export class InvoiceService {
 
     const valorTotal = tarifaPorHora * horasEstacionado;
 
-    this.guardarInforme(vehicle.licensePlate, vehicle.entryTime, vehicle.exitTime, valorTotal);
+    this.guardarInforme(
+      vehicle.licensePlate,
+      vehicle.entryTime,
+      vehicle.exitTime,
+      valorTotal
+    );
 
     return {
       valor: valorTotal,
@@ -53,22 +58,24 @@ export class InvoiceService {
       descuentoAplicado,
     };
   }
-
-
-  
   private calcularHoras(entryTime: string, exitTime: string): number {
     const entrada = this.convertirAHoras(entryTime);
     const salida = this.convertirAHoras(exitTime);
-    
+
     return Math.max(0, salida - entrada); // Asegura que no sea negativo
   }
-  
+
   private convertirAHoras(hora: string): number {
     const [horas, minutos] = hora.split(':').map(Number);
     return horas + minutos / 60; // Convierte minutos a fracción de hora
   }
-  
-  private guardarInforme(licensePlate: string, entryTime: string, exitTime: string, amountToPay: number) {
+
+  private guardarInforme(
+    licensePlate: string,
+    entryTime: string,
+    exitTime: string,
+    amountToPay: number
+  ) {
     const informes = this.getInforme();
     informes.push({ licensePlate, entryTime, exitTime, amountToPay });
     sessionStorage.setItem(this.REPORT_STORAGE_KEY, JSON.stringify(informes));
@@ -86,7 +93,4 @@ export class InvoiceService {
   limpiarInforme(): void {
     sessionStorage.removeItem(this.REPORT_STORAGE_KEY);
   }
-
-
-
 }

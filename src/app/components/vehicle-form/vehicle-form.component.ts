@@ -32,7 +32,7 @@ import { ParkingService } from '../../services/parking.service';
 export class VehicleFormComponent implements OnInit {
   vehiculoForm!: FormGroup;
   vehicle?: Vehicle;
-  isPlazaDisabled = true;
+
   isEdit: boolean = false;
   idVehicle?: number | null;
   spotOccuped?: any;
@@ -84,15 +84,18 @@ export class VehicleFormComponent implements OnInit {
       tipoAlimentacion: [data?.vehicle?.fuelType || '', Validators.required],
       horaEntrada: [data?.vehicle?.entryTime || '', Validators.required],
     });
+
+    if(!this.idVehicle){
+      this.vehiculoForm.get('plaza')?.disable(); 
+    }
   }
   ngOnInit(): void {
+  
     this.vehiculoForm.get('tipoVehiculo')?.valueChanges.subscribe((value) => {
       if (value) {
-        this.isPlazaDisabled = false;
         this.SpotForType(value);
-      } else {
-        this.isPlazaDisabled = true;
-      }
+        this.vehiculoForm.get('plaza')?.enable(); 
+      } 
     });
   }
 
@@ -125,7 +128,6 @@ export class VehicleFormComponent implements OnInit {
         entryTime: this.vehiculoForm.get('horaEntrada')?.value,
         exitTime: null,
       };
-      console.log(dataSend);
       if (!this.isEdit) {
         this.vehicleService.saveVehicle(dataSend).subscribe({
           next: () => {
@@ -153,14 +155,12 @@ export class VehicleFormComponent implements OnInit {
           next: () => {
             const idTipo = this.vehiculoForm.get('tipoVehiculo')?.value;
             const idSpot = this.vehiculoForm.get('plaza')?.value;
-            console.log(this.spotOccuped, idSpot);
             if (this.spotOccuped !== idSpot) {
-              console.log('edittt');
+              //actualiza la zona de parqueo ocupada y la que dejo ed estar ocupada si se edito
               this.parkingService.updateParkingSpot(idTipo, this.spotOccuped);
               this.parkingService.updateParkingSpot(idTipo, idSpot);
             }
 
-            console.log(idTipo, idSpot);
 
             this.dialogRef.close(true);
 

@@ -43,7 +43,6 @@ export class InvoiceOneComponent {
     let vehicleExit: any = this.vehicleService.getVehicleData(this.placa);
     vehicleExit.amountToPay = this.valor;
     this.vehicleService.updateVehicle(vehicleExit).subscribe((response) => {
-      console.log(vehicleExit)
       if (response.status === 200) {
 
         this.snackBar.open(
